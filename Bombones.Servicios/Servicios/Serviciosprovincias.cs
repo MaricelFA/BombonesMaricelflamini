@@ -14,12 +14,33 @@ namespace Bombones.Servicios.Servicios
 
         public void Borrar(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _conexion = new ConexionBD();
+                _repositorio = new RepositorioProvincias(_conexion.AbrirConexion());
+                _repositorio.Borrar(id);
+                _conexion.CerrarConexion();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public bool Existe(Provincia provincia)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _conexion = new ConexionBD();
+                _repositorio = new RepositorioProvincias(_conexion.AbrirConexion());
+                var bExiste = _repositorio.Existe(provincia);
+                _conexion.CerrarConexion();
+                return bExiste;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public List<Provincia> GetLista()
@@ -46,7 +67,35 @@ namespace Bombones.Servicios.Servicios
 
         public void Guardar(Provincia provincia)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _conexion = new ConexionBD();
+                _repositorio = new RepositorioProvincias(_conexion.AbrirConexion());
+                _repositorio.Guardar(provincia);
+                _conexion.CerrarConexion();
+
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+        }
+
+        public bool EstaRelacionado(Provincia provincia)
+        {
+            try
+            {
+                _conexion = new ConexionBD();
+                _repositorio = new RepositorioProvincias(_conexion.AbrirConexion());
+                var bEstaRelacionado = _repositorio.EstaRelacionado(provincia);
+                _conexion.CerrarConexion();
+                return bEstaRelacionado;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
     }
 }

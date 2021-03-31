@@ -44,8 +44,16 @@
   <ItemGroup>
     <Compile Include="ConexionBD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositorios\Facales\IRepositorioLocalidades.cs" />
     <Compile Include="Repositorios\Facales\IRepositorioProvincias.cs" />
+    <Compile Include="Repositorios\Facales\IRepositorioTipodeNuez.cs" />
+    <Compile Include="Repositorios\Facales\IRepositorioTipodeRelleno.cs" />
+    <Compile Include="Repositorios\Facales\IRepositorioTiposDeChocolate.cs" />
+    <Compile Include="Repositorios\RepositorioLocalidades.cs" />
     <Compile Include="Repositorios\RepositorioProvincias.cs" />
+    <Compile Include="Repositorios\RepositorioTipoDeNuez.cs" />
+    <Compile Include="Repositorios\RepositorioTipodeRelleno.cs" />
+    <Compile Include="Repositorios\RepositorioTiposDeChocolate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bombones.BL\Bombones.BL.csproj">

@@ -14,5 +14,6 @@ namespace Bombones.Data.Repositorios.Facales
         void Borrar(int id);
         Provincia GetProvinciaPorId(int id);
         bool Existe(Provincia provincia);
+        bool EstaRelacionado(Provincia provincia);
     }
 }
