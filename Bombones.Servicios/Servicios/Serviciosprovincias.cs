@@ -1,4 +1,5 @@
 ﻿using Bombones.BL;
+using Bombones.BL.Dtos.Provincia;
 using Bombones.Data;
 using Bombones.Data.Repositorios;
 using Bombones.Servicios.Servicios.Facales;
@@ -27,15 +28,20 @@ namespace Bombones.Servicios.Servicios
             }
         }
 
-        public bool Existe(Provincia provincia)
+        public bool Existe(ProvinciaEditDto provinciaDto)
         {
             try
             {
                 _conexion = new ConexionBD();
                 _repositorio = new RepositorioProvincias(_conexion.AbrirConexion());
-                var bExiste = _repositorio.Existe(provincia);
+                var provincia = new Provincia
+                {
+                    ProvinciaId = provinciaDto.ProvinciaId,
+                    NombreProvincia = provinciaDto.NombreProvincia
+                };
+                var existe = _repositorio.Existe(provincia);
                 _conexion.CerrarConexion();
-                return bExiste;
+                return existe;
             }
             catch (Exception e)
             {
@@ -43,7 +49,7 @@ namespace Bombones.Servicios.Servicios
             }
         }
 
-        public List<Provincia> GetLista()
+        public List<ProvinciaListDto> GetLista()
         {
             try
             {
@@ -60,17 +66,34 @@ namespace Bombones.Servicios.Servicios
             }
         }
 
-        public Provincia GetProvinciaPorId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Guardar(Provincia provincia)
+        public ProvinciaEditDto GetProvinciaPorId(int id)
         {
             try
             {
                 _conexion = new ConexionBD();
                 _repositorio = new RepositorioProvincias(_conexion.AbrirConexion());
+                var provincia = _repositorio.GetProvinciaPorId(id);
+                _conexion.CerrarConexion();
+                return provincia;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        
+
+        public void Guardar(ProvinciaEditDto provinciaDto)
+        {
+            try
+            {
+                _conexion = new ConexionBD();
+                _repositorio = new RepositorioProvincias(_conexion.AbrirConexion());
+                 var  provincia  =  new  Provincia
+                {
+                    ProvinciaId  =  provinciaDto . ProvinciaId ,
+                    NombreProvincia  =  provinciaDto . NombreProvincia
+                };
                 _repositorio.Guardar(provincia);
                 _conexion.CerrarConexion();
 
@@ -82,20 +105,23 @@ namespace Bombones.Servicios.Servicios
             }
         }
 
-        public bool EstaRelacionado(Provincia provincia)
+        public bool EstaRelacionado(ProvinciaListDto provincia)
         {
             try
             {
                 _conexion = new ConexionBD();
                 _repositorio = new RepositorioProvincias(_conexion.AbrirConexion());
-                var bEstaRelacionado = _repositorio.EstaRelacionado(provincia);
+
+                var estaRelacionado = _repositorio.EstaRelacionado(provincia);
                 _conexion.CerrarConexion();
-                return bEstaRelacionado;
+                return estaRelacionado;
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
         }
+
+    
     }
 }

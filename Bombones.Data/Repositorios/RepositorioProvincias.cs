@@ -1,4 +1,5 @@
 ﻿using Bombones.BL;
+using Bombones.BL.Dtos.Provincia;
 using Bombones.Data.Repositorios.Facales;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,23 @@ namespace Bombones.Data.Repositorios
             }
         }
 
+        public bool EstaRelacionado(ProvinciaListDto provincia)
+        {
+            try
+            {
+                string cadenaComando = "SELECT * FROM Localidades WHERE ProvinciaId=@id";
+                SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
+                comando.Parameters.AddWithValue("@id", provincia.ProvinciaId);
+                SqlDataReader reader = comando.ExecuteReader();
+                return reader.HasRows;
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+        }
+
         public bool Existe(Provincia provincia)
         {
             if (provincia.ProvinciaId == 0)
@@ -60,9 +78,9 @@ namespace Bombones.Data.Repositorios
             }
         }
 
-        public List<Provincia> GetLista()
+        public List<ProvinciaListDto> GetLista()
         {
-            List<Provincia> lista = new List<Provincia>();
+            List<ProvinciaListDto> lista = new List<ProvinciaListDto>();
             try
             {
                 string cadenaComando = "SELECT Provinciaid, NombreProvincia FROM Provincias ORDER BY NombreProvincia";
@@ -70,7 +88,7 @@ namespace Bombones.Data.Repositorios
                 SqlDataReader reader = comando.ExecuteReader();
                 while (reader.Read())
                 {
-                    Provincia provincia = ConstruirProvincia(reader);
+                    ProvinciaListDto provincia = ConstruirProvinciaListDto(reader);
                     lista.Add(provincia);
                 }
                 reader.Close();
@@ -83,19 +101,9 @@ namespace Bombones.Data.Repositorios
 
         }
 
-        private Provincia ConstruirProvincia(SqlDataReader reader)
+        public ProvinciaEditDto GetProvinciaPorId(int id)
         {
-            return new Provincia()
-            {
-                ProvinciaId = reader.GetInt32(0),
-                NombreProvincia = reader.GetString(1)
-            };
-
-        }
-
-        public Provincia GetProvinciaPorId(int id)
-        {
-            Provincia p = null;
+            ProvinciaEditDto p = null;
             try
             {
                 string cadenaComando = "SELECT Provinciaid, NombreProvincia FROM Provincias WHERE ProvinciaId=@id";
@@ -105,7 +113,7 @@ namespace Bombones.Data.Repositorios
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    p = ConstruirProvincia(reader);
+                    p = ConstruirProvinciaEditDto(reader);
                 }
 
                 reader.Close();
@@ -121,7 +129,7 @@ namespace Bombones.Data.Repositorios
         {
             if (provincia.ProvinciaId == 0)
             {
-               
+
                 try
                 {
                     string cadenaComando = "INSERT INTO Provincias VALUES(@nombre)";
@@ -146,7 +154,7 @@ namespace Bombones.Data.Repositorios
             }
             else
             {
-                
+
                 try
                 {
                     string cadenaComando = "UPDATE Provincias SET NombreProvincia=@nombre WHERE ProvinciaId=@id";
@@ -168,21 +176,26 @@ namespace Bombones.Data.Repositorios
             }
         }
 
-        public bool EstaRelacionado(Provincia provincia)
+        private ProvinciaListDto ConstruirProvinciaListDto(SqlDataReader reader)
         {
-            try
+            return new ProvinciaListDto
             {
-                string cadenaComando = "SELECT * FROM Localidades WHERE ProvinciaId=@id";
-                SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
-                comando.Parameters.AddWithValue("@id", provincia.ProvinciaId);
-                SqlDataReader reader = comando.ExecuteReader();
-                return reader.HasRows;
-            }
-            catch (Exception e)
-            {
-
-                throw new Exception(e.Message);
-            }
+                ProvinciaId = reader.GetInt32(0),
+                NombreProvincia = reader.GetString(1)
+            };
         }
+
+
+        ProvinciaEditDto ConstruirProvinciaEditDto(SqlDataReader reader)
+        {
+            return new ProvinciaEditDto
+            {
+                ProvinciaId = reader.GetInt32(0),
+                NombreProvincia = reader.GetString(1)
+            };
+        }
+
+
     }
 }
+

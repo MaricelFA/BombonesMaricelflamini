@@ -1,4 +1,5 @@
 ﻿using Bombones.BL;
+using Bombones.BL.Dtos.Provincia;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace Bombones.Data.Repositorios.Facales
 {
     public interface IRepositorioProvincias
     {
-        List<Provincia> GetLista();
+        List<ProvinciaListDto> GetLista();
         void Guardar(Provincia provincia);
         void Borrar(int id);
-        Provincia GetProvinciaPorId(int id);
+        ProvinciaEditDto GetProvinciaPorId(int id);
         bool Existe(Provincia provincia);
-        bool EstaRelacionado(Provincia provincia);
+        bool EstaRelacionado(ProvinciaListDto provincia);
     }
 }

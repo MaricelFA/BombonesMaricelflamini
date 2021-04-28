@@ -1,15 +1,12 @@
 ﻿using Bombones.BL;
+using Bombones.BL.Dtos.Localidad;
+using Bombones.BL.Dtos.Provincia;
 using Bombones.Servicios.Servicios;
 using Bombones.Servicios.Servicios.Facales;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Bombones.Windows.Helpers;
 
 namespace Bombones.Windows
 {
@@ -20,42 +17,28 @@ namespace Bombones.Windows
             InitializeComponent();
         }
 
-        internal Localidad GetLocalidad()
-        {
-            return localidad;
-        }
+
 
         private void FrmLocalidadesAE_Load(object sender, EventArgs e)
         {
 
         }
-        private Localidad localidad;
+     
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            CargarDatosComboProvincias(ref ProvinciasComboBox);
+            Helper.CargarDatosComboProvincias(ref ProvinciasComboBox);
+          
             if (localidad != null)
             {
                 LocalidadTextBox.Text = localidad.NombreLocalidad;
-                ProvinciasComboBox.SelectedValue = localidad.Provincia.ProvinciaId;
+                ProvinciasComboBox.SelectedValue = localidad.ProvinciaId;
             }
         }
+       
 
-        private void CargarDatosComboProvincias(ref ComboBox provinciasComboBox )
-        {
-            IServiciosProvincias servicioProvincias = new Serviciosprovincias();
-            List<Provincia> lista = servicioProvincias.GetLista();
-            Provincia defaultProvincia = new Provincia
-            {
-                ProvinciaId = 0,
-                NombreProvincia = "<Seleccionar Provincia>"
-            };
-            lista.Insert(0, defaultProvincia);
-            provinciasComboBox.DisplayMember = "NombreProvincia";
-            provinciasComboBox.ValueMember = "ProvinciaId";
-            provinciasComboBox.DataSource = lista;
-            provinciasComboBox.SelectedIndex = 0;
-        }
+
+        private LocalidadEditDto localidad;
 
         private void CancelarButton_Click(object sender, EventArgs e)
         {
@@ -68,11 +51,11 @@ namespace Bombones.Windows
             {
                 if (localidad == null)
                 {
-                    localidad = new Localidad();
+                    localidad = new LocalidadEditDto();
                 }
 
                 localidad.NombreLocalidad = LocalidadTextBox.Text;
-                localidad.Provincia = ProvinciasComboBox.SelectedItem as Provincia;
+                localidad.Provincia = (ProvinciaListDto)ProvinciasComboBox.SelectedItem;
 
                 DialogResult = DialogResult.OK;
             }
@@ -95,6 +78,16 @@ namespace Bombones.Windows
             }
 
             return valido;
+        }
+
+        internal LocalidadEditDto GetLocalidad()
+        {
+            return localidad;
+        }
+
+        internal void SetLocalidad(LocalidadEditDto localidad)
+        {
+            this.localidad = localidad;
         }
     }
 }

@@ -97,5 +97,97 @@ namespace Bombones.Windows
             frm.MdiParent = this;
             frm.Show();
         }
+
+        private void FrmMenúPrincipal_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TipodeDocumentoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmTiposDeDocumentos frm = new FrmTiposDeDocumentos();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void clientesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmClientes frm = new FrmClientes();
+            frm.MdiParent = this;
+            frm.Show();
+
+        }
+
+        private void toolStripButtonClientes_Click(object sender, EventArgs e)
+        {
+            FrmClientes frm = new FrmClientes();
+            frm.MdiParent = this;
+            frm.Show();
+
+        }
+
+        private void toolStripButtonTiposDoc_Click(object sender, EventArgs e)
+        {
+            FrmTiposDeDocumentos frm = new FrmTiposDeDocumentos();
+            frm.MdiParent = this;
+            frm.Show();
+
+        }
+
+        private void toolStripButtonBombon_Click(object sender, EventArgs e)
+        {
+            FrmBombones frm = new FrmBombones();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void bombonesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmBombones frm = new FrmBombones();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void toolStripButtonVentas_Click(object sender, EventArgs e)
+        {
+            FrmDetalleVentas frm = new FrmDetalleVentas();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void ventasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmDetalleVentas frm = new FrmDetalleVentas();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void tiposDeDocumentosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmTiposDeDocumentos frm = new FrmTiposDeDocumentos();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void tiposDeChocolateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmTiposDeChocolate frm = new FrmTiposDeChocolate();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void tiposDeRellenosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmTipodeRelleno frm = new FrmTipodeRelleno();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void tiposDeNuecesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            FrmTiposdeNuez frm = new FrmTiposdeNuez();
+            frm.MdiParent = this;
+            frm.Show();
+        }
     }
 }

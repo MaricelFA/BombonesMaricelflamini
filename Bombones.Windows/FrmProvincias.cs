@@ -1,4 +1,5 @@
 ﻿using Bombones.BL;
+using Bombones.BL.Dtos.Provincia;
 using Bombones.Servicios.Servicios;
 using System;
 using System.Collections.Generic;
@@ -13,16 +14,8 @@ namespace Bombones.Windows
             InitializeComponent();
         }
         private Serviciosprovincias _servicio;
-        private List<Provincia> _lista;
-        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        private List<ProvinciaListDto> _lista;
+ 
 
         private void tsbCerrar_Click(object sender, EventArgs e)
         {
@@ -46,11 +39,7 @@ namespace Bombones.Windows
             dgvDatos.Rows.Add(r);
         }
 
-        private void SetearFila(Provincia provincia, DataGridViewRow r)
-        {
-            r.Cells[cmnProvincia.Index].Value = provincia.NombreProvincia;
-            r.Tag = provincia;
-        }
+       
 
         private DataGridViewRow ConstruirFila()
         {
@@ -86,13 +75,18 @@ namespace Bombones.Windows
             {
                 try
                 {
-                    Provincia provincia = frm.GetProvincia();
+                    ProvinciaEditDto provinciaEditDto = frm.GetProvincia();
                     
 
-                    if (!_servicio.Existe(provincia))
+                    if (!_servicio.Existe(provinciaEditDto))
                     {
-                        _servicio.Guardar(provincia);
+                        _servicio.Guardar(provinciaEditDto);
                         DataGridViewRow r = ConstruirFila();
+                        ProvinciaListDto provincia = new ProvinciaListDto
+                        {
+                            ProvinciaId = provinciaEditDto.ProvinciaId,
+                            NombreProvincia = provinciaEditDto.NombreProvincia
+                        };
                         SetearFila(provincia, r);
                         AgregarFila(r);
                         MessageBox.Show("Registro Agregado", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -112,26 +106,38 @@ namespace Bombones.Windows
             }
         }
 
+        private void SetearFila(ProvinciaListDto provincia, DataGridViewRow r)
+        {
+            r.Cells[cmnProvincia.Index].Value = provincia.NombreProvincia;
+            r.Tag = provincia;
+        }
+
         private void tsbEditar_Click(object sender, EventArgs e)
         {
             if (dgvDatos.SelectedRows.Count > 0)
             {
                 DataGridViewRow r = dgvDatos.SelectedRows[0];
-                Provincia provincia = (Provincia)r.Tag;
-                Provincia provinciaAux = (Provincia)provincia.Clone();
+                ProvinciaListDto provincia = (ProvinciaListDto)r.Tag;
+                ProvinciaListDto provinciaAux = (ProvinciaListDto)provincia.Clone();
+                ProvinciaEditDto provinciaEditDto = new ProvinciaEditDto
+                {
+                    ProvinciaId = provincia.ProvinciaId,
+                    NombreProvincia = provincia.NombreProvincia
+                };
                 FrmProvinciasAE frm = new FrmProvinciasAE();
                 frm.Text = "Editar Provincia";
-                frm.SetProvincia(provincia);
+                frm.SetProvincia(provinciaEditDto);
                 DialogResult dr = frm.ShowDialog(this);
                 if (dr == DialogResult.OK)
                 {
                     try
                     {
-                        provincia = frm.GetProvincia();
+                        provinciaEditDto = frm.GetProvincia();
 
-                        if (!_servicio.Existe(provincia))
+                        if (!_servicio.Existe(provinciaEditDto))
                         {
-                            _servicio.Guardar(provincia);
+                            _servicio.Guardar(provinciaEditDto);
+                            provincia.NombreProvincia = provinciaEditDto.NombreProvincia;
                             SetearFila(provincia, r);
                             MessageBox.Show("Registro Editado", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -157,7 +163,7 @@ namespace Bombones.Windows
             if (dgvDatos.SelectedRows.Count > 0)
             {
                 DataGridViewRow r = dgvDatos.SelectedRows[0];
-                Provincia provincia = (Provincia)r.Tag;
+                ProvinciaListDto provincia = (ProvinciaListDto)r.Tag;
 
                 DialogResult dr = MessageBox.Show($"¿Desea dar de baja a la provincia {provincia.NombreProvincia}?",
                     "Confirmar Baja", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);

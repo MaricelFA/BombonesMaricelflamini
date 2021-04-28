@@ -42,16 +42,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Servicios\Facales\IServiciosBombones.cs" />
+    <Compile Include="Servicios\Facales\IServiciosClientes.cs" />
+    <Compile Include="Servicios\Facales\IServiciosDetalleVentas.cs" />
     <Compile Include="Servicios\Facales\IServiciosLocalidades.cs" />
     <Compile Include="Servicios\Facales\IServiciosProvincias.cs" />
     <Compile Include="Servicios\Facales\IServiciosTipodeNuez.cs" />
     <Compile Include="Servicios\Facales\IServiciosTipodeRelleno.cs" />
     <Compile Include="Servicios\Facales\IServiciosTiposDeChocolate.cs" />
+    <Compile Include="Servicios\Facales\IServiciosTiposDedocumentos.cs" />
+    <Compile Include="Servicios\Facales\IServiciosVentas.cs" />
+    <Compile Include="Servicios\ServiciosBombones.cs" />
+    <Compile Include="Servicios\ServiciosClientes.cs" />
+    <Compile Include="Servicios\ServiciosDetalleVentas.cs" />
     <Compile Include="Servicios\ServiciosLocalidades.cs" />
     <Compile Include="Servicios\Serviciosprovincias.cs" />
     <Compile Include="Servicios\ServiciosTipodeNuez.cs" />
     <Compile Include="Servicios\ServiciosTipodeRelleno.cs" />
     <Compile Include="Servicios\ServiciosTiposDeChocolate.cs" />
+    <Compile Include="Servicios\ServiciosTiposDeDocumentos.cs" />
+    <Compile Include="Servicios\ServiciosVentas.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bombones.BL\Bombones.BL.csproj">

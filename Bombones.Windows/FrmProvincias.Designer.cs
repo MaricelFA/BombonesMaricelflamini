@@ -51,7 +51,6 @@ namespace Bombones.Windows
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 392);
             this.panel1.TabIndex = 5;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // dgvDatos
             // 
@@ -90,7 +89,6 @@ namespace Bombones.Windows
             this.toolStrip1.Size = new System.Drawing.Size(800, 58);
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
-            this.toolStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStrip1_ItemClicked);
             // 
             // tsbNuevo
             // 

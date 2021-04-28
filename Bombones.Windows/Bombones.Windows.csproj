@@ -46,6 +46,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrmBombones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmBombones.Designer.cs">
+      <DependentUpon>FrmBombones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmBombonesAE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmBombonesAE.Designer.cs">
+      <DependentUpon>FrmBombonesAE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmClientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmClientes.Designer.cs">
+      <DependentUpon>FrmClientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmClientesAE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmClientesAE.Designer.cs">
+      <DependentUpon>FrmClientesAE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmDetalleVentaAE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDetalleVentaAE.Designer.cs">
+      <DependentUpon>FrmDetalleVentaAE.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmLocalidades.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,14 +136,49 @@
     <Compile Include="FrmTiposDeChocolateAE.Designer.cs">
       <DependentUpon>FrmTiposDeChocolateAE.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmTiposDeDocumentos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTiposDeDocumentos.Designer.cs">
+      <DependentUpon>FrmTiposDeDocumentos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmTiposDeDocumentosAE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTiposDeDocumentosAE.Designer.cs">
+      <DependentUpon>FrmTiposDeDocumentosAE.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmTiposdeNuez.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmTiposdeNuez.Designer.cs">
       <DependentUpon>FrmTiposdeNuez.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmDetalleVentas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDetalleVentas.Designer.cs">
+      <DependentUpon>FrmDetalleVentas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\Helper.cs" />
+    <Compile Include="IServiciosventas.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmBombones.resx">
+      <DependentUpon>FrmBombones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmBombonesAE.resx">
+      <DependentUpon>FrmBombonesAE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmClientes.resx">
+      <DependentUpon>FrmClientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmClientesAE.resx">
+      <DependentUpon>FrmClientesAE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDetalleVentaAE.resx">
+      <DependentUpon>FrmDetalleVentaAE.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmLocalidades.resx">
       <DependentUpon>FrmLocalidades.cs</DependentUpon>
     </EmbeddedResource>
@@ -144,8 +209,17 @@
     <EmbeddedResource Include="FrmTiposDeChocolateAE.resx">
       <DependentUpon>FrmTiposDeChocolateAE.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmTiposDeDocumentos.resx">
+      <DependentUpon>FrmTiposDeDocumentos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTiposDeDocumentosAE.resx">
+      <DependentUpon>FrmTiposDeDocumentosAE.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmTiposdeNuez.resx">
       <DependentUpon>FrmTiposdeNuez.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDetalleVentas.resx">
+      <DependentUpon>FrmDetalleVentas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -278,6 +352,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\world_map_36px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\candy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clientes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\doc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ventas.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

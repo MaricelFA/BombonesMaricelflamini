@@ -1,4 +1,5 @@
 ﻿using Bombones.BL;
+using Bombones.BL.Dtos.Provincia;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,13 +18,13 @@ namespace Bombones.Windows
         {
             InitializeComponent();
         }
-        private Provincia provincia;
-        internal Provincia GetProvincia()
+        private ProvinciaEditDto provincia;
+        public ProvinciaEditDto GetProvincia()
         {
             return provincia;
         }
 
-        internal void SetProvincia(Provincia provincia)
+        internal void SetProvincia(ProvinciaEditDto provincia)
         {
             this.provincia = provincia;
         }
@@ -52,7 +53,7 @@ namespace Bombones.Windows
             {
                 if (provincia == null)
                 {
-                    provincia = new Provincia();
+                    provincia = new ProvinciaEditDto();
                 }
 
                 provincia.NombreProvincia = ProvinciaTextBox.Text;

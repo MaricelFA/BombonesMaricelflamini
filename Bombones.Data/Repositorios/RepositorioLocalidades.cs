@@ -1,4 +1,5 @@
 ﻿using Bombones.BL;
+using Bombones.BL.Dtos.Localidad;
 using Bombones.Data.Repositorios.Facales;
 using System;
 using System.Collections.Generic;
@@ -26,44 +27,66 @@ namespace Bombones.Data.Repositorios
 
         public void Borrar(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var cadenaComando = "DELETE FROM Localidades WHERE LocalidadId=@id";
+                var comando = new SqlCommand(cadenaComando, _conexion);
+                comando.Parameters.AddWithValue("@id", id);
+                comando.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public bool Existe(Localidad localidad)
         {
-            if (localidad.LocalidadId == 0)
+            try
             {
-                string cadenaComando = "SELECT LocalidadId, ProvinciaId, NombreLocalidad FROM Localidades WHERE NombreLocalidad=@nom";
-                SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
-                comando.Parameters.AddWithValue("@nom", localidad.NombreLocalidad);
-                SqlDataReader reader = comando.ExecuteReader();
-                return reader.HasRows;
-            }
-            else
-            {
-                //Edicion de provincia
-                string cadenaComando = "SELECT LocalidadId, ProvinciaId, NombreLocalidad FROM Localidades WHERE NombreLocalidad=@nom AND LocalidadId<>@id";
-                SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
-                comando.Parameters.AddWithValue("@nom", localidad.NombreLocalidad);
-                comando.Parameters.AddWithValue("@id", localidad.LocalidadId);
-                SqlDataReader reader = comando.ExecuteReader();
+                SqlCommand comando = null;
+                SqlDataReader reader = null;
+
+                if (localidad.LocalidadId == 0)
+                {
+                    var cadenaComando = "SELECT LocalidadId, ProvinciaId, NombreLocalidad FROM Localidades WHERE NombreLocalidad=@nom";
+                    comando = new SqlCommand(cadenaComando, _conexion);
+                    comando.Parameters.AddWithValue("@nom", localidad.NombreLocalidad);
+                    // SqlDataReader reader = comando.ExecuteReader();
+                    //return reader.HasRows;
+                }
+                else
+                {
+
+                    var cadenaComando = "SELECT LocalidadId, ProvinciaId, NombreLocalidad FROM Localidades WHERE NombreLocalidad=@nom AND LocalidadId<>@id";
+                    comando = new SqlCommand(cadenaComando, _conexion);
+                    comando.Parameters.AddWithValue("@nom", localidad.NombreLocalidad);
+                    comando.Parameters.AddWithValue("@id", localidad.LocalidadId);
+                    // SqlDataReader reader = comando.ExecuteReader();
+                    //return reader.HasRows;
+
+                }
+                reader = comando.ExecuteReader();
                 return reader.HasRows;
 
             }
-        }
-
-        public List<Localidad> GetLista()
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }   
+        public List<LocalidadListDto> GetLista()
         {
-            List<Localidad> lista = new List<Localidad>();
+            List<LocalidadListDto> lista = new List<LocalidadListDto>();
             try
             { 
-                string cadenaComando = "SELECT LocalidadId, ProvinciaId, NombreLocalidad  FROM Localidades";
+                string cadenaComando = "SELECT LocalidadId, NombreProvincia, NombreLocalidad  FROM Localidades L inner join Provincias P on L.ProvinciaId=P.ProvinciaId ";
                 SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
                 SqlDataReader reader = comando.ExecuteReader();
                 while (reader.Read())
                 {
-                    Localidad localidad = ConstruirLocalidad(reader);
-                    lista.Add(localidad);
+                    var localidadDto = ConstruirLocalidadDto(reader);
+                    lista.Add(localidadDto);
                 }
                 reader.Close();
                 return lista;
@@ -74,24 +97,26 @@ namespace Bombones.Data.Repositorios
             }
         }
 
-        private Localidad ConstruirLocalidad(SqlDataReader reader)
-        {
-            return new Localidad()
-            {
-                LocalidadId = reader.GetInt32(0),
-                NombreLocalidad = reader.GetString(2),
-                Provincia = _repoProvincias.GetProvinciaPorId(reader.GetInt32(1))
-            };
-        }
+        private LocalidadListDto ConstruirLocalidadDto(SqlDataReader reader)
+                 {
+                    LocalidadListDto localidadDto = new LocalidadListDto();
+                    localidadDto.LocalidadId = reader.GetInt32(0);
+                localidadDto.NombreLocalidad = reader.GetString(2);
+                    localidadDto.NombreProvincia = reader.GetString(1);
+                    return localidadDto;
 
-        public List<Localidad> GetLista(int provinciaId)
-        {
-            throw new NotImplementedException();
-        }
+            
+          
+                  }
 
-        public Localidad GetLocalidadPorId(int id)
+         public List<Localidad> GetLista(int provinciaId)
+                  {
+                   throw new NotImplementedException();
+                  }
+
+        public LocalidadEditDto GetLocalidadPorId(int id)
         {
-            Localidad l = null;
+            LocalidadEditDto localidad = null;
             try
             {
                 string cadenaComando = "SELECT LocalidadId, ProvinciaId, NombreLocalidad  FROM Localidades WHERE LocalidadId=@id";
@@ -101,16 +126,25 @@ namespace Bombones.Data.Repositorios
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    l = ConstruirLocalidad(reader);
+                    localidad = ConstruirLocalidad(reader);
                 }
 
                 reader.Close();
-                return l;
+                return localidad;
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
+        }
+
+        private LocalidadEditDto ConstruirLocalidad(SqlDataReader reader)
+        {
+            var localidad = new LocalidadEditDto();
+            localidad.LocalidadId = reader.GetInt32(0);
+            localidad.NombreLocalidad = reader.GetString(2);
+            localidad.ProvinciaId = reader.GetInt32(1);
+            return localidad;
         }
 
         public void Guardar(Localidad localidad)
@@ -162,6 +196,47 @@ namespace Bombones.Data.Repositorios
                     throw new Exception("Error");
                 }
 
+            }
+        }
+
+        List<LocalidadListDto> IRepositorioLocalidades.GetLista(int provinciaId)
+        {
+
+            List<LocalidadListDto> lista = new List<LocalidadListDto>();
+            try
+            {
+                string cadenaComando = "SELECT LocalidadId, NombreProvincia, NombreLocalidad  FROM Localidades L inner join Provincias P on L.ProvinciaId=P.ProvinciaId where P.ProvinciaId=@id ";
+                SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
+                comando.Parameters.AddWithValue("@id", provinciaId);
+                SqlDataReader reader = comando.ExecuteReader();
+                while (reader.Read())
+                {
+                    var localidadDto = ConstruirLocalidadDto(reader);
+                    lista.Add(localidadDto);
+                }
+                reader.Close();
+                return lista;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public bool EstaRelacionado(LocalidadListDto localidadListDto)
+        {
+            try
+            {
+                string cadenaComando = "SELECT * FROM Clientes WHERE LocalidadId=@id";
+                SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
+                comando.Parameters.AddWithValue("@id", localidadListDto.LocalidadId);
+                SqlDataReader reader = comando.ExecuteReader();
+                return reader.HasRows;
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
             }
         }
     }

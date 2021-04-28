@@ -98,7 +98,6 @@ namespace Bombones.Windows
             this.toolStrip1.Size = new System.Drawing.Size(800, 58);
             this.toolStrip1.TabIndex = 6;
             this.toolStrip1.Text = "toolStrip1";
-            this.toolStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStrip1_ItemClicked);
             // 
             // tsbNuevo
             // 
@@ -120,6 +119,7 @@ namespace Bombones.Windows
             this.tsbBorrar.Size = new System.Drawing.Size(43, 55);
             this.tsbBorrar.Text = "Borrar";
             this.tsbBorrar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsbBorrar.Click += new System.EventHandler(this.tsbBorrar_Click);
             // 
             // tsbEditar
             // 
@@ -130,6 +130,7 @@ namespace Bombones.Windows
             this.tsbEditar.Size = new System.Drawing.Size(41, 55);
             this.tsbEditar.Text = "Editar";
             this.tsbEditar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsbEditar.Click += new System.EventHandler(this.tsbEditar_Click);
             // 
             // toolStripSeparator1
             // 

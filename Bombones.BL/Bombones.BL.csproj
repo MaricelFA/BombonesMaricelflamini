@@ -41,12 +41,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bombon.cs" />
+    <Compile Include="Cliente.cs" />
+    <Compile Include="DetalleVenta.cs" />
+    <Compile Include="Dtos\Bombon\BombonEditDto.cs" />
+    <Compile Include="Dtos\Bombon\BombonListDto.cs" />
+    <Compile Include="Dtos\Cliente\ClienteEditDto.cs" />
+    <Compile Include="Dtos\Cliente\ClienteListDto.cs" />
+    <Compile Include="Dtos\DetalleVenta\DetalleVentaEditDto.cs" />
+    <Compile Include="Dtos\DetalleVenta\DetalleVentaListDto.cs" />
+    <Compile Include="Dtos\Localidad\LocalidadEditDto.cs" />
+    <Compile Include="Dtos\Localidad\LocalidadListDto.cs" />
+    <Compile Include="Dtos\Provincia\ProvinciaEditDto.cs" />
+    <Compile Include="Dtos\Provincia\ProvinciaListDto.cs" />
+    <Compile Include="Dtos\Venta\VentaEditDto.cs" />
+    <Compile Include="Dtos\Venta\VentaListDto.cs" />
     <Compile Include="Localidad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provincia.cs" />
     <Compile Include="TipodeRelleno.cs" />
     <Compile Include="TipoChocolate.cs" />
     <Compile Include="TipodeNuez.cs" />
+    <Compile Include="TipoDeDocumento.cs" />
+    <Compile Include="Venta.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entidades\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
