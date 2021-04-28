@@ -76,22 +76,22 @@ namespace Bombones.Servicios.Servicios
             {
                 _conexion = new ConexionBD();
                 _repositorio = new RepositorioClientes(_conexion.AbrirConexion());
-                Cliente cliente = new Cliente
-                {
-                    ClienteId= clienteEditDto.ClienteId,
-                    Nombre= clienteEditDto.Nombre,
-                    Apellido= clienteEditDto.Apellido,
-                    TipoDeDocumentoId= clienteEditDto.documento.TipoDeDocumentoId,
-                    NroDocumento= clienteEditDto.NroDocumento,
-                    Direccion= clienteEditDto.Direccion,
-                    LocalidadId=clienteEditDto.Localidad.LocalidadId,
-                    ProvinciaId=clienteEditDto.Provincia.ProvinciaId,
-                    TelefonoFijo=clienteEditDto.TelefonoFijo,
-                    TelefonoMovil=clienteEditDto.TelefonoMovil,
-                    CorreoElectronico=clienteEditDto.CorreoElectronico,
-                    FechaDeNacimiento=clienteEditDto.FechaDeNacimiento
+                Cliente cliente = new Cliente();
 
-                };
+                cliente.ClienteId = clienteEditDto.ClienteId;
+                cliente.Nombre = clienteEditDto.Nombre;
+                cliente.Apellido = clienteEditDto.Apellido;
+                cliente.TipoDeDocumentoId = clienteEditDto.documento.TipoDeDocumentoId;
+                cliente.NroDocumento = clienteEditDto.NroDocumento;
+                cliente.Direccion = clienteEditDto.Direccion;
+                cliente.LocalidadId = clienteEditDto.Localidad.LocalidadId;
+                cliente.ProvinciaId = clienteEditDto.Provincia.ProvinciaId;
+                cliente.TelefonoFijo = clienteEditDto.TelefonoFijo;
+                cliente.TelefonoMovil = clienteEditDto.TelefonoMovil;
+                cliente.CorreoElectronico = clienteEditDto.CorreoElectronico;
+                cliente.FechaDeNacimiento = clienteEditDto.FechaDeNacimiento;
+
+               
                 var existe = _repositorio.Existe(cliente);
                 _conexion.CerrarConexion();
                 return existe;

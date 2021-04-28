@@ -1,5 +1,6 @@
 ﻿using Bombones.BL;
 using Bombones.BL.Dtos.Localidad;
+using Bombones.BL.Dtos.Provincia;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,6 @@ namespace Bombones.Servicios.Servicios.Facales
         LocalidadEditDto GetLocalidadPorId(int id);
         bool Existe(LocalidadEditDto localidad);
         bool EstaRelacionado(LocalidadListDto localidadListDto);
+        List<LocalidadListDto> GetLista(ProvinciaListDto provincia);
     }
 }

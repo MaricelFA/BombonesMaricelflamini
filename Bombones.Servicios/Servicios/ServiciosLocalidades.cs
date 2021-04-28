@@ -1,5 +1,6 @@
 ﻿using Bombones.BL;
 using Bombones.BL.Dtos.Localidad;
+using Bombones.BL.Dtos.Provincia;
 using Bombones.Data;
 using Bombones.Data.Repositorios;
 using Bombones.Data.Repositorios.Facales;
@@ -112,6 +113,25 @@ namespace Bombones.Servicios.Servicios
 
                 throw new Exception(e.Message);
             }
+        }
+
+        public List<LocalidadListDto> GetLista(ProvinciaListDto provincia)
+        {
+            try
+            {
+                _conexion = new ConexionBD();
+   
+                _repositorioLocalidades = new RepositorioLocalidades(_conexion.AbrirConexion());
+                var lista = _repositorioLocalidades.GetLista(provincia);
+                _conexion.CerrarConexion();
+                return lista;
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+
         }
 
         public LocalidadEditDto GetLocalidadPorId(int id)

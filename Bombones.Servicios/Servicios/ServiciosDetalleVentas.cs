@@ -72,6 +72,7 @@ namespace Bombones.Servicios.Servicios
                 {
                     DetalleVentaId = detalleEditDto.DetalleVentaId,
                     VentaId = detalleEditDto.venta.VentaId,
+                   
                     BombonId=detalleEditDto.bombon.BombonId,
                     Precio=detalleEditDto.Precio,
                     Cantidad=detalleEditDto.Cantidad

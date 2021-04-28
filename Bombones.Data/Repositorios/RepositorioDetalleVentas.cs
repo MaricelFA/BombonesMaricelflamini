@@ -66,7 +66,10 @@ namespace Bombones.Data.Repositorios
             List<DetalleVentaListDto> lista = new List<DetalleVentaListDto>();
             try
             {
-                string cadenaComando = "select DetalleVentaId,VentaId, B.NombreBombon, Precio, Cantidad FROM from DetallesVentas DV INNER JOIN Bombones B on DV.BombonId=B.BombonId";
+                string cadenaComando = "DV.DetalleVentaId, V.VentaId, C.Nombre,C.Apellido,V.Fecha,B.NombreBombon,SUM(DV.Precio*DV.Cantidad)" +
+                    " FROM DetallesVentas DV INNER JOIN Bombones B on DV.BombonId=B.BombonId INNER JOIN Ventas V on DV.VentaId=V.VentaId " +
+                    "INNER JOIN Clientes C on V.ClienteId=C.ClienteId " +
+                    "group by DV.DetalleVentaId,V.VentaId, C.Nombre,C.Apellido,V.Fecha,B.NombreBombon";
                 SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
                 SqlDataReader reader = comando.ExecuteReader();
                 while (reader.Read())
@@ -90,9 +93,12 @@ namespace Bombones.Data.Repositorios
             {
                 detalleVentaListDto.DetalleVentaId = reader.GetInt32(0);
                 detalleVentaListDto.VentaId = reader.GetInt32(1);
-                detalleVentaListDto.NombreBombon = reader.GetString(2);
-                detalleVentaListDto.Precio = reader.GetDecimal(3);
-                detalleVentaListDto.Cantidad = reader.GetInt32(4);
+                detalleVentaListDto.Nombre = reader.GetString(2);
+                detalleVentaListDto.Apellido= reader.GetString(3);
+                detalleVentaListDto.Fecha = reader.GetDateTime(4);
+                detalleVentaListDto.NombreBombon = reader.GetString(5);
+                detalleVentaListDto.Total = reader.GetDecimal(6);
+               
                 return detalleVentaListDto;
 
             };

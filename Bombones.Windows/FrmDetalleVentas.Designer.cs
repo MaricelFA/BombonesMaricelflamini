@@ -31,16 +31,17 @@ namespace Bombones.Windows
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.dgvDatos = new System.Windows.Forms.DataGridView();
-            this.cmnVenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CmnCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CmnFecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CmnTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsbNuevo = new System.Windows.Forms.ToolStripButton();
             this.tsbBorrar = new System.Windows.Forms.ToolStripButton();
             this.tsbEditar = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbCerrar = new System.Windows.Forms.ToolStripButton();
+            this.cmnVenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmnClienteApellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CmnCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CmnFecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CmnTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatos)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -62,6 +63,7 @@ namespace Bombones.Windows
             this.dgvDatos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDatos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cmnVenta,
+            this.cmnClienteApellido,
             this.CmnCliente,
             this.CmnFecha,
             this.CmnTotal});
@@ -74,34 +76,6 @@ namespace Bombones.Windows
             this.dgvDatos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvDatos.Size = new System.Drawing.Size(800, 392);
             this.dgvDatos.TabIndex = 0;
-            // 
-            // cmnVenta
-            // 
-            this.cmnVenta.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.cmnVenta.HeaderText = "Numero de Venta";
-            this.cmnVenta.Name = "cmnVenta";
-            this.cmnVenta.ReadOnly = true;
-            // 
-            // CmnCliente
-            // 
-            this.CmnCliente.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.CmnCliente.HeaderText = "Cliente";
-            this.CmnCliente.Name = "CmnCliente";
-            this.CmnCliente.ReadOnly = true;
-            // 
-            // CmnFecha
-            // 
-            this.CmnFecha.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.CmnFecha.HeaderText = "Fecha";
-            this.CmnFecha.Name = "CmnFecha";
-            this.CmnFecha.ReadOnly = true;
-            // 
-            // CmnTotal
-            // 
-            this.CmnTotal.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.CmnTotal.HeaderText = "Total";
-            this.CmnTotal.Name = "CmnTotal";
-            this.CmnTotal.ReadOnly = true;
             // 
             // toolStrip1
             // 
@@ -126,6 +100,7 @@ namespace Bombones.Windows
             this.tsbNuevo.Size = new System.Drawing.Size(46, 55);
             this.tsbNuevo.Text = "Nuevo";
             this.tsbNuevo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsbNuevo.Click += new System.EventHandler(this.tsbNuevo_Click);
             // 
             // tsbBorrar
             // 
@@ -163,6 +138,41 @@ namespace Bombones.Windows
             this.tsbCerrar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.tsbCerrar.Click += new System.EventHandler(this.tsbCerrar_Click);
             // 
+            // cmnVenta
+            // 
+            this.cmnVenta.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.cmnVenta.HeaderText = "Numero de Venta";
+            this.cmnVenta.Name = "cmnVenta";
+            this.cmnVenta.ReadOnly = true;
+            // 
+            // cmnClienteApellido
+            // 
+            this.cmnClienteApellido.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.cmnClienteApellido.HeaderText = "Apellido Cliente";
+            this.cmnClienteApellido.Name = "cmnClienteApellido";
+            this.cmnClienteApellido.ReadOnly = true;
+            // 
+            // CmnCliente
+            // 
+            this.CmnCliente.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.CmnCliente.HeaderText = "Nombre Cliente";
+            this.CmnCliente.Name = "CmnCliente";
+            this.CmnCliente.ReadOnly = true;
+            // 
+            // CmnFecha
+            // 
+            this.CmnFecha.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.CmnFecha.HeaderText = "Fecha";
+            this.CmnFecha.Name = "CmnFecha";
+            this.CmnFecha.ReadOnly = true;
+            // 
+            // CmnTotal
+            // 
+            this.CmnTotal.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.CmnTotal.HeaderText = "Total";
+            this.CmnTotal.Name = "CmnTotal";
+            this.CmnTotal.ReadOnly = true;
+            // 
             // FrmDetalleVentas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -194,6 +204,7 @@ namespace Bombones.Windows
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton tsbCerrar;
         private System.Windows.Forms.DataGridViewTextBoxColumn cmnVenta;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cmnClienteApellido;
         private System.Windows.Forms.DataGridViewTextBoxColumn CmnCliente;
         private System.Windows.Forms.DataGridViewTextBoxColumn CmnFecha;
         private System.Windows.Forms.DataGridViewTextBoxColumn CmnTotal;

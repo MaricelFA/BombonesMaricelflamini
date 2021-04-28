@@ -50,8 +50,8 @@ namespace Bombones.Windows
                 txtDNI.Text = cliente.NroDocumento;
                 txtDomicilio.Text = cliente.Direccion;
                 txtEmail.Text = cliente.CorreoElectronico;
-                cboProvincia.SelectedValue = cliente.Provincia;
-               
+                cboProvincia.SelectedValue = cliente.Provincia.ProvinciaId;
+                Helper.CargarDatosComboLocalidad(ref cboLocalidad, cliente.Provincia);
                 cboLocalidad.SelectedValue = cliente.Localidad;
                 
                 comboBoxTipoDeDni.SelectedValue = cliente.documento;
@@ -81,8 +81,10 @@ namespace Bombones.Windows
                 cliente.NroDocumento = txtDNI.Text;
                 cliente.Direccion = txtDomicilio.Text;
                 cliente.CorreoElectronico = txtEmail.Text;
+                cliente.Provincia = (ProvinciaListDto)cboProvincia.SelectedItem;
+
                 cliente.Localidad = (LocalidadListDto)cboLocalidad.SelectedItem;
-                cliente.Provincia= (ProvinciaListDto)cboProvincia.SelectedItem;
+               
                 cliente.documento = (TipoDeDocumento)comboBoxTipoDeDni.SelectedItem;
                 cliente.TelefonoFijo = txtTelefonoFijo.Text;
                 cliente.TelefonoMovil = txtTelefonoMovil.Text;
@@ -147,7 +149,7 @@ namespace Bombones.Windows
             {
 
                 ProvinciaListDto provincia = (ProvinciaListDto)cboProvincia.SelectedItem;
-                Helper.CargarDatosComboLocalidad(ref cboLocalidad, provincia.ProvinciaId);
+                Helper.CargarDatosComboLocalidad(ref cboLocalidad, provincia );
             }
             else
             {

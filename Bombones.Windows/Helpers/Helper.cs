@@ -29,6 +29,16 @@ namespace Bombones.Windows.Helpers
             combo.SelectedIndex = 0;
         }
 
+        internal static void CargarDatosComboBombones(ref ComboBox cbBombon)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void CargarDatosComboClientes(ref ComboBox cboCliente)
+        {
+            throw new NotImplementedException();
+        }
+
         internal static void CargarDatosComboTipoChocolate(ref ComboBox cbTipoChocolate)
         {
             IServiciosTiposDeChocolate serviciosTiposDeChocolate = new ServiciosTiposDeChocolate();
@@ -77,10 +87,10 @@ namespace Bombones.Windows.Helpers
             cbTipoNuez.SelectedIndex = 0;
         }
 
-        internal static void CargarDatosComboLocalidad(ref ComboBox combo, int pid)
+        internal static void CargarDatosComboLocalidad(ref ComboBox combo, ProvinciaListDto provincia)
         {
             IServiciosLocalidades serviciosLocalidades = new ServiciosLocalidades();
-            var lista = serviciosLocalidades.GetLista(pid);
+            var lista = serviciosLocalidades.GetLista(provincia);
             var defaultLocalidad = new LocalidadListDto
             {
                 LocalidadId = 0,

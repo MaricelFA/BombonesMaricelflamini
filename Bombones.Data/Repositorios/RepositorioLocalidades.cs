@@ -1,5 +1,6 @@
 ﻿using Bombones.BL;
 using Bombones.BL.Dtos.Localidad;
+using Bombones.BL.Dtos.Provincia;
 using Bombones.Data.Repositorios.Facales;
 using System;
 using System.Collections.Generic;
@@ -236,6 +237,28 @@ namespace Bombones.Data.Repositorios
             catch (Exception e)
             {
 
+                throw new Exception(e.Message);
+            }
+        }
+
+        public List<LocalidadListDto> GetLista(ProvinciaListDto provincia)
+        {
+            List<LocalidadListDto> lista = new List<LocalidadListDto>();
+            try
+            {
+                string cadenaComando = "SELECT LocalidadId, NombreProvincia, NombreLocalidad  FROM Localidades L inner join Provincias P on L.ProvinciaId=P.ProvinciaId ";
+                SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
+                SqlDataReader reader = comando.ExecuteReader();
+                while (reader.Read())
+                {
+                    var localidadDto = ConstruirLocalidadDto(reader);
+                    lista.Add(localidadDto);
+                }
+                reader.Close();
+                return lista;
+            }
+            catch (Exception e)
+            {
                 throw new Exception(e.Message);
             }
         }

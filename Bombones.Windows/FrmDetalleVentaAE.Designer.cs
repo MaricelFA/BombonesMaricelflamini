@@ -37,6 +37,7 @@ namespace Bombones.Windows
             this.label5 = new System.Windows.Forms.Label();
             this.cbBombon = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtDireccion = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.cboCliente = new System.Windows.Forms.ComboBox();
@@ -44,7 +45,6 @@ namespace Bombones.Windows
             this.txtLocalidad = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtDireccion = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.UpDownCantidad = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
@@ -113,6 +113,16 @@ namespace Bombones.Windows
             this.groupBox1.TabIndex = 171;
             this.groupBox1.TabStop = false;
             // 
+            // txtDireccion
+            // 
+            this.txtDireccion.Location = new System.Drawing.Point(67, 45);
+            this.txtDireccion.MaxLength = 100;
+            this.txtDireccion.Name = "txtDireccion";
+            this.txtDireccion.ReadOnly = true;
+            this.txtDireccion.Size = new System.Drawing.Size(262, 20);
+            this.txtDireccion.TabIndex = 146;
+            this.txtDireccion.TabStop = false;
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -175,16 +185,6 @@ namespace Bombones.Windows
             this.label1.Size = new System.Drawing.Size(49, 13);
             this.label1.TabIndex = 178;
             this.label1.Text = "Bombon:";
-            // 
-            // txtDireccion
-            // 
-            this.txtDireccion.Location = new System.Drawing.Point(67, 45);
-            this.txtDireccion.MaxLength = 100;
-            this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.ReadOnly = true;
-            this.txtDireccion.Size = new System.Drawing.Size(262, 20);
-            this.txtDireccion.TabIndex = 146;
-            this.txtDireccion.TabStop = false;
             // 
             // groupBox2
             // 
@@ -349,6 +349,7 @@ namespace Bombones.Windows
             this.CancelarButton.Text = "Cancelar";
             this.CancelarButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.CancelarButton.UseVisualStyleBackColor = true;
+
             // 
             // OkButton
             // 

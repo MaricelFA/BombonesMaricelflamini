@@ -188,8 +188,11 @@ namespace Bombones.Windows
                         {
                             _servicio.Guardar(clienteEdit);
                             cliente.ClienteId = clienteEdit.ClienteId;
+                            cliente.Apellido = clienteEdit.Apellido;
+                            cliente.Nombre = clienteEdit.Nombre;
                             cliente.NombreLocalidad = clienteEdit.Localidad.NombreLocalidad;
                             cliente.NombreProvincia = clienteEdit.Provincia.NombreProvincia;
+
 
                             SetearFila(r, cliente);
                             MessageBox.Show("Registro Editado", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);

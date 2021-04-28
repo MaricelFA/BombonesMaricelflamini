@@ -1,5 +1,6 @@
 ﻿
 using Bombones.BL.Dtos.Bombon;
+using Bombones.BL.Dtos.Cliente;
 using Bombones.BL.Dtos.Venta;
 
 namespace Bombones.BL.Dtos.DetalleVenta
@@ -9,6 +10,7 @@ namespace Bombones.BL.Dtos.DetalleVenta
         public int DetalleVentaId { get; set; }
         public VentaListDto venta { get; set; }
         public BombonListDto bombon { get; set; }
+        public ClienteListDto cliente { get; set; }
         public decimal Precio { get; set; }
         public int Cantidad { get; set; }
     }
