@@ -40,7 +40,7 @@ namespace Bombones.Windows
             {
                 txtNombreBombon.Text = bombon.NombreBombon;
                 UpDownStock.Value = bombon.CantidadEnExistencia;
-                txtCosto.Text = bombon.Costo.ToString();// decimal.Parse(txtCosto.Text);
+                txtCosto.Text = bombon.Costo.ToString();
                 txtDescripcion.Text = bombon.Descripcion;
                 cbTipoChocolate.SelectedValue = bombon.tipoChocolate.TipoChocolateId;
                 cbTipoNuez.SelectedValue = bombon.tipodeNuez.TipoDeNuezId;

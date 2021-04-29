@@ -10,6 +10,8 @@ namespace Bombones.BL
     {
         public int VentaId { get; set; }
         public int ClienteId { get; set; }
+        public Cliente cliente { get; set; }
         public DateTime Fecha { get; set; }
+        public List<DetalleVenta> DetalleVentas { get; set; } = new List<DetalleVenta>();
     }
 }

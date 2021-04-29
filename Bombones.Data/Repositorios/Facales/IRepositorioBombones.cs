@@ -16,5 +16,6 @@ namespace Bombones.Data.Repositorios.Facales
         void Borrar(int bombonId);
         BombonEditDto GetBombonPorId(int bombonId);
         bool EstaRelacionado(BombonListDto bombonListDto);
+        void ActualizarStock(Bombon bombon, int v);
     }
 }

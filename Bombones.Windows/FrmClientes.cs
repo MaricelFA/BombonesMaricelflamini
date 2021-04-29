@@ -193,7 +193,6 @@ namespace Bombones.Windows
                             cliente.NombreLocalidad = clienteEdit.Localidad.NombreLocalidad;
                             cliente.NombreProvincia = clienteEdit.Provincia.NombreProvincia;
 
-
                             SetearFila(r, cliente);
                             MessageBox.Show("Registro Editado", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

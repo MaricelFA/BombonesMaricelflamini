@@ -16,61 +16,38 @@ namespace Bombones.Data.Repositorios
 
         private readonly SqlConnection _conexion;
         private IRepositorioVentas _repositorioVentas;
-        private IRepositorioBombones _repositorioBombones;
+        private SqlTransaction _tran;
 
-        public RepositorioDetalleVentas(SqlConnection sqlConnection, IRepositorioVentas repositorioVentas, IRepositorioBombones repositorioBombones)
+
+        public RepositorioDetalleVentas(SqlConnection sqlConnection)
         {
             _conexion = sqlConnection;
-            _repositorioVentas = repositorioVentas;
-            _repositorioBombones = repositorioBombones;
         }
 
-
-        public void Borrar(int DetalleVentaId)
+        public RepositorioDetalleVentas(SqlConnection sqlConnection, SqlTransaction tran) : this(sqlConnection)
         {
-            try
-            {
-                var cadenaComando = "DELETE FROM DetallesVentas WHERE DetalleVentaId=@id";
-                var comando = new SqlCommand(cadenaComando, _conexion);
-                comando.Parameters.AddWithValue("@id", DetalleVentaId);
-                comando.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-
-                if (e.Message.Contains("REFERENCE"))
-                {
-                    throw new Exception("Registro con datos asociados... Baja denegada");
-                }
-
-            }
+            this._tran = tran;
         }
 
-        public bool EstaRelacionado(DetalleVentaListDto detalleVentaListDto)
-        {
-            throw new NotImplementedException();
-        }
 
-        public bool Existe(DetalleVenta detalleVenta)
-        {
-            throw new NotImplementedException();
-        }
+
+
 
         public DetalleVentaEditDto GetDetalleVentaPorId(int detalleVentaId)
         {
             throw new NotImplementedException();
         }
 
-        public List<DetalleVentaListDto> GetLista()
+        public List<DetalleVentaListDto> GetLista(int ventaId)
         {
             List<DetalleVentaListDto> lista = new List<DetalleVentaListDto>();
             try
             {
-                string cadenaComando = "DV.DetalleVentaId, V.VentaId, C.Nombre,C.Apellido,V.Fecha,B.NombreBombon,SUM(DV.Precio*DV.Cantidad)" +
+                string cadenaComando = "SELECT DV.DetalleVentaId, V.VentaId, B.NombreBombon, DV.Precio, DV.Cantidad" +
                     " FROM DetallesVentas DV INNER JOIN Bombones B on DV.BombonId=B.BombonId INNER JOIN Ventas V on DV.VentaId=V.VentaId " +
-                    "INNER JOIN Clientes C on V.ClienteId=C.ClienteId " +
-                    "group by DV.DetalleVentaId,V.VentaId, C.Nombre,C.Apellido,V.Fecha,B.NombreBombon";
+                    "WHERE VentaId=@Id";
                 SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
+                comando.Parameters.AddWithValue("@id", ventaId);
                 SqlDataReader reader = comando.ExecuteReader();
                 while (reader.Read())
                 {
@@ -87,69 +64,68 @@ namespace Bombones.Data.Repositorios
             }
         }
 
+
+
         private DetalleVentaListDto ConstruirDetalleVentaListDto(SqlDataReader reader)
         {
             DetalleVentaListDto detalleVentaListDto = new DetalleVentaListDto();
             {
                 detalleVentaListDto.DetalleVentaId = reader.GetInt32(0);
                 detalleVentaListDto.VentaId = reader.GetInt32(1);
-                detalleVentaListDto.Nombre = reader.GetString(2);
-                detalleVentaListDto.Apellido= reader.GetString(3);
-                detalleVentaListDto.Fecha = reader.GetDateTime(4);
-                detalleVentaListDto.NombreBombon = reader.GetString(5);
-                detalleVentaListDto.Total = reader.GetDecimal(6);
-               
+                detalleVentaListDto.NombreBombon = reader.GetString(2);
+                detalleVentaListDto.Precio = reader.GetDecimal(3);
+                detalleVentaListDto.Cantidad = reader.GetInt32(4);
+
                 return detalleVentaListDto;
 
             };
         }
 
+
         public void Guardar(DetalleVenta detalleVenta)
         {
-            if (detalleVenta.DetalleVentaId == 0)
-            {
-                try
-                {
-                    string cadenaComando = "INSERT INTO Ventas VALUES (@detalle,@venta,@bombon, @precio, @cantidad)";
-                    SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
-                    comando.Parameters.AddWithValue("@detalle", detalleVenta.DetalleVentaId);
-                    comando.Parameters.AddWithValue("@venta", detalleVenta.VentaId);
-                    comando.Parameters.AddWithValue("@bombon", detalleVenta.BombonId);
-                    comando.Parameters.AddWithValue("@precio", detalleVenta.Precio);
-                    comando.Parameters.AddWithValue("@cantidad", detalleVenta.Cantidad);
-                }
-                catch (Exception e)
-                {
-                    if (e.Message.Contains("IX_"))
-                    {
-                        throw new Exception("Registro duplicado...");
-                    }
-                    throw new Exception("Error");
-                }
 
+
+            try
+            {
+                string cadenaComando = "INSERT INTO DetallesVentas VALUES (@detalle,@venta,@bombon, @precio, @cantidad)";
+                SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
+                comando.Parameters.AddWithValue("@detalle", detalleVenta.DetalleVentaId);
+                comando.Parameters.AddWithValue("@venta", detalleVenta.venta.VentaId);
+                comando.Parameters.AddWithValue("@bombon", detalleVenta.bombon.NombreBombon);
+                comando.Parameters.AddWithValue("@precio", detalleVenta.Costo);
+                comando.Parameters.AddWithValue("@cantidad", detalleVenta.Cantidad);
             }
-            else
+            catch (Exception e)
             {
-                try
-                {
-                    string cadenaComando = "UPDATE DetallesVentas set VentaId=@venta, BombonId=@bom, " +
-                        "Precio=@precio, Cantidad=@cant Where DetalleVentaId=@Id";
-                    SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
-                    comando.Parameters.AddWithValue("@VentaId", detalleVenta.VentaId);
-                    comando.Parameters.AddWithValue("@bom", detalleVenta.BombonId);
-                    comando.Parameters.AddWithValue("@precio", detalleVenta.Precio);
-                    comando.Parameters.AddWithValue("@cant", detalleVenta.Cantidad);
-                    comando.Parameters.AddWithValue("@Id", detalleVenta.DetalleVentaId);
+                throw new Exception("Error al guardar un Detalle de venta");
+            }
 
-                }
-                catch (Exception e)
+
+
+
+
+
+
+        }
+
+        public void Borrar(int detalleId)
+        {
+            try
+            {
+                var cadenaComando = "DELETE FROM DetallesVentas WHERE DetalleVentaId=@id";
+                var comando = new SqlCommand(cadenaComando, _conexion);
+                comando.Parameters.AddWithValue("@id", detalleId);
+                comando.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+
+                if (e.Message.Contains("REFERENCE"))
                 {
-                    if (e.Message.Contains("IX_"))
-                    {
-                        throw new Exception("Registro duplicado...");
-                    }
-                    throw new Exception("Error");
+                    throw new Exception("Registro con datos asociados... Baja denegada");
                 }
+
             }
         }
     }

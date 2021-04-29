@@ -9,7 +9,7 @@ namespace Bombones.Servicios.Servicios.Facales
 {
     public interface IServiciosDetalleVentas
     {
-        List<DetalleVentaListDto> GetLista();
+        
         void Guardar(DetalleVentaEditDto detalleEditDto);
         void Borrar(int detalleId);
     }

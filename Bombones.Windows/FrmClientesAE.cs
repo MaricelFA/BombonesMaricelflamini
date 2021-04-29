@@ -52,9 +52,11 @@ namespace Bombones.Windows
                 txtEmail.Text = cliente.CorreoElectronico;
                 cboProvincia.SelectedValue = cliente.Provincia.ProvinciaId;
                 Helper.CargarDatosComboLocalidad(ref cboLocalidad, cliente.Provincia);
-                cboLocalidad.SelectedValue = cliente.Localidad;
+                cboLocalidad.SelectedValue = cliente.Localidad.LocalidadId;
                 
-                comboBoxTipoDeDni.SelectedValue = cliente.documento;
+                comboBoxTipoDeDni.SelectedValue = cliente.documento.TipoDeDocumentoId;
+               
+                
                 txtTelefonoFijo.Text = cliente.TelefonoFijo;
                 txtTelefonoMovil.Text = cliente.TelefonoMovil;
 

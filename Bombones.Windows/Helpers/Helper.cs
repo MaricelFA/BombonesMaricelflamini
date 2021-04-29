@@ -1,9 +1,13 @@
 ﻿using Bombones.BL;
+using Bombones.BL.Dtos.Bombon;
+using Bombones.BL.Dtos.Cliente;
+using Bombones.BL.Dtos.DetalleVenta;
 using Bombones.BL.Dtos.Localidad;
 using Bombones.BL.Dtos.Provincia;
 using Bombones.Servicios.Servicios;
 using Bombones.Servicios.Servicios.Facales;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Bombones.Windows.Helpers
@@ -31,12 +35,34 @@ namespace Bombones.Windows.Helpers
 
         internal static void CargarDatosComboBombones(ref ComboBox cbBombon)
         {
-            throw new NotImplementedException();
+            IServiciosBombones serviciosBombones = new ServiciosBombones();
+            var lista = serviciosBombones.GetLista();
+            var defaultBombon = new BombonListDto
+            {
+                BombonId = 0,
+                NombreBombon = "<Seleccionar Bombón>"
+            };
+            lista.Insert(0, defaultBombon);
+            cbBombon.DisplayMember = "NombreBombon";
+            cbBombon.ValueMember = "BombonId";
+            cbBombon.DataSource = lista;
+            cbBombon.SelectedIndex = 0;
         }
 
         internal static void CargarDatosComboClientes(ref ComboBox cboCliente)
         {
-            throw new NotImplementedException();
+            IServiciosClientes serviciosClientes = new ServiciosClientes();
+            var lista = serviciosClientes.GetLista();
+            var defaultCliente = new ClienteListDto
+            {
+                ClienteId = 0,
+                NombreCompleto = "<Seleccionar Cliente>"
+            };
+            lista.Insert(0, defaultCliente);
+            cboCliente.DisplayMember = "NombreCompleto";
+            cboCliente.ValueMember = "ClienteId";
+            cboCliente.DataSource = lista;
+            cboCliente.SelectedIndex = 0;
         }
 
         internal static void CargarDatosComboTipoChocolate(ref ComboBox cbTipoChocolate)
@@ -85,6 +111,24 @@ namespace Bombones.Windows.Helpers
             cbTipoNuez.ValueMember = "TipoDeNuezId";
             cbTipoNuez.DataSource = lista;
             cbTipoNuez.SelectedIndex = 0;
+        }
+
+        internal static List<DetalleVentaListDto> ConstruirListaItemsListDto(List<DetalleVentaEditDto> detalleVentas)
+        {
+            var listaDto = new List<DetalleVentaListDto>();
+            foreach (var item in detalleVentas)
+            {
+                var itemDto = new DetalleVentaListDto()
+                {
+                    DetalleVentaId = item.DetalleVentaId,
+                    NombreBombon = item.bombon.NombreBombon,
+                    Precio = item.Costo,
+                    Cantidad = item.Cantidad
+                };
+                listaDto.Add(itemDto);
+            }
+
+            return listaDto;
         }
 
         internal static void CargarDatosComboLocalidad(ref ComboBox combo, ProvinciaListDto provincia)

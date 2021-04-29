@@ -1,4 +1,5 @@
-﻿using Bombones.BL.Dtos.Venta;
+﻿using Bombones.BL.Dtos.DetalleVenta;
+using Bombones.BL.Dtos.Venta;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,9 @@ namespace Bombones.Servicios.Servicios.Facales
         List<VentaListDto> GetLista();
         void Guardar(VentaEditDto ventaEditDto);
         void Borrar(int ventaId);
+  
+        VentaEditDto GetVentaPorId(int id);
+
+        List<DetalleVentaListDto> GetDetalle(int ventaDtoVentaId);
     }
 }

@@ -46,6 +46,7 @@
     <Compile Include="DetalleVenta.cs" />
     <Compile Include="Dtos\Bombon\BombonEditDto.cs" />
     <Compile Include="Dtos\Bombon\BombonListDto.cs" />
+    <Compile Include="Dtos\CarritoDto.cs" />
     <Compile Include="Dtos\Cliente\ClienteEditDto.cs" />
     <Compile Include="Dtos\Cliente\ClienteListDto.cs" />
     <Compile Include="Dtos\DetalleVenta\DetalleVentaEditDto.cs" />

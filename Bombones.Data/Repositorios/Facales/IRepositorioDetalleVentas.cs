@@ -10,11 +10,8 @@ namespace Bombones.Data.Repositorios.Facales
 {
     public interface IRepositorioDetalleVentas
     {
-        List<DetalleVentaListDto> GetLista();
+        List<DetalleVentaListDto> GetLista(int ventaId);
         void Guardar(DetalleVenta detalleVenta);
-        bool Existe(DetalleVenta detalleVenta);
-        void Borrar(int DetalleVentaId);
-        DetalleVentaEditDto GetDetalleVentaPorId(int detalleVentaId);
-        bool EstaRelacionado(DetalleVentaListDto detalleVentaListDto);
+        void Borrar(int detalleId);
     }
 }

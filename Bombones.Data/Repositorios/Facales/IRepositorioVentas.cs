@@ -12,9 +12,8 @@ namespace Bombones.Data.Repositorios.Facales
     {
         List<VentaListDto> GetLista();
         void Guardar(Venta venta);
-        bool Existe(Venta venta);
         void Borrar(int ventaId);
         VentaEditDto GetVentaPorId(int ventaId);
-        bool EstaRelacionado(VentaListDto ventaListDto);
+     
     }
 }

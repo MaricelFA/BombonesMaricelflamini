@@ -9,9 +9,9 @@ namespace Bombones.BL
     public class DetalleVenta
     {
         public int DetalleVentaId { get; set; }
-        public int VentaId { get; set; }
-        public int BombonId { get; set; }
-        public decimal Precio { get; set; }
+        public Venta venta { get; set; }
+        public Bombon bombon { get; set; }
+        public decimal Costo { get; set; }
         public int Cantidad { get; set; }
     }
 }

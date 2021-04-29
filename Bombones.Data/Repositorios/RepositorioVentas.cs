@@ -13,13 +13,31 @@ namespace Bombones.Data.Repositorios
     public class RepositorioVentas : IRepositorioVentas
     {
         private readonly SqlConnection _conexion;
+        private SqlTransaction tran;
         private IRepositorioClientes _repositorioClientes;
+        private  IRepositorioDetalleVentas _repositorioDetalles;
+        private  IRepositorioBombones _repositorioBombones;
 
-        public RepositorioVentas (SqlConnection sqlConnection,IRepositorioClientes repositorioClientes)
+        public RepositorioVentas (SqlConnection sqlConnection,IRepositorioClientes repositorioClientes, IRepositorioDetalleVentas repositorioDetalle, IRepositorioBombones repositorioBombones)
         {
             _conexion = sqlConnection;
             _repositorioClientes = repositorioClientes;
+            _repositorioDetalles = repositorioDetalle;
+            _repositorioBombones = repositorioBombones;
+            
         }
+        public RepositorioVentas(SqlConnection sqlConnection)
+        {
+            this._conexion = sqlConnection;
+
+        }
+        public RepositorioVentas(SqlConnection sqlConnection, SqlTransaction tran) : this(sqlConnection)
+        {
+            this.tran = tran;
+        }
+
+
+
 
         public void Borrar(int ventaId)
         {
@@ -41,16 +59,7 @@ namespace Bombones.Data.Repositorios
             }
         }
 
-        public bool EstaRelacionado(VentaListDto ventaListDto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Existe(Venta venta)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public List<VentaListDto> GetLista()
         {
             List<VentaListDto> lista = new List<VentaListDto>();
@@ -94,7 +103,7 @@ namespace Bombones.Data.Repositorios
             try
             {
 
-                string cadenaComando = "select VentaId,C.Nombre,C.Apellido,V.Fecha FROM Ventas V INNER JOIN Clientes C on V.ClienteId = C.ClienteId Where VentaId=@Id";
+                string cadenaComando = "select VentaId,(Nombre + '' + Apellido),V.Fecha FROM Ventas V INNER JOIN Clientes C on V.ClienteId = C.ClienteId Where VentaId=@Id";
                 SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
                 comando.Parameters.AddWithValue("@id", ventaId);
                 SqlDataReader reader = comando.ExecuteReader();
@@ -115,7 +124,17 @@ namespace Bombones.Data.Repositorios
 
         private VentaEditDto ConstruirVentaEditDto(SqlDataReader reader)
         {
-            throw new NotImplementedException();
+            _repositorioClientes = new RepositorioClientes(_conexion);
+           
+            //arreglar
+            return new VentaEditDto
+            {
+                VentaId = reader.GetInt32(0),
+              // cliente= _repositorioClientes.(reader.GetInt32(1)),
+                Fecha= reader.GetDateTime(2),
+                
+              
+            };
 
         }
 
@@ -150,6 +169,11 @@ namespace Bombones.Data.Repositorios
                     comando.Parameters.AddWithValue("@clienteId", venta.ClienteId);
                     comando.Parameters.AddWithValue("@fecha", venta.Fecha);
                     comando.Parameters.AddWithValue("@Id", venta.VentaId);
+                    comando.ExecuteNonQuery();
+                    cadenaComando = "SELECT @@IDENTITY";
+                    comando = new SqlCommand(cadenaComando, _conexion, tran);
+                    int id = (int)(decimal)comando.ExecuteScalar();
+                    venta.VentaId = id;
 
                 }
                 catch (Exception e)

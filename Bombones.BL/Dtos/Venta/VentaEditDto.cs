@@ -1,4 +1,5 @@
 ﻿using Bombones.BL.Dtos.Cliente;
+using Bombones.BL.Dtos.DetalleVenta;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace Bombones.BL.Dtos.Venta
         public int VentaId { get; set; }
         public ClienteListDto cliente { get; set; }
         public DateTime Fecha { get; set; }
+        public List<DetalleVentaEditDto> DetalleVentas { get; set; } = new List<DetalleVentaEditDto>();
     }
 }

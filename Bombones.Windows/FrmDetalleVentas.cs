@@ -2,6 +2,7 @@
 using Bombones.BL.Dtos.Venta;
 using Bombones.Servicios.Servicios;
 using Bombones.Servicios.Servicios.Facales;
+using Bombones.Windows.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,20 +28,22 @@ namespace Bombones.Windows
         }
         private IServiciosDetalleVentas _servicioDetalle;
         private IServiciosventas _serviciosVentas;
-        private ServiciosDetalleVentas ServiciosDetalle;
+        //private ServiciosDetalleVentas ServiciosDetalle;
         private ServiciosVentas ServiciosVentas;
+        
+       
 
         private List<DetalleVentaListDto> _listadetalle;
+        private List<VentaListDto> _listaventa;
         
 
         private void FrmDetalleVentas_Load(object sender, EventArgs e)
         {
             try
             {
-                 
-                _listadetalle = _servicioDetalle.GetLista();
+                ServiciosVentas = new ServiciosVentas();
+                _listaventa = ServiciosVentas.GetLista();
                 MostrarEnGrilla();
-                
             }
             catch (Exception ex)
             {
@@ -48,15 +51,37 @@ namespace Bombones.Windows
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
+
         }
 
+     
+
+        //private void MostrarEnGrilla2()
+        //{
+        //    dgvDatos.Rows.Clear();
+        //    foreach (var ventaListDto in _listaventa)
+        //    {
+        //        DataGridViewRow r = ConstruirFila();
+        //        SetearFila2(r, ventaListDto);
+        //        AgregarFila(r);
+        //    }
+        //}
+        private void SetearFila(DataGridViewRow r, VentaListDto ventaListDto)
+        {
+            r.Cells[cmnVenta.Index].Value = ventaListDto.VentaId;
+            r.Cells[CmnTotal.Index].Value = ventaListDto.TotalVenta.ToString("C");
+            r.Cells[cmnClienteApellido.Index].Value = ventaListDto.Apellido;
+            r.Cells[CmnCliente.Index].Value = ventaListDto.Nombre;
+            r.Cells[CmnFecha.Index].Value = ventaListDto.Fecha;
+            r.Tag = ventaListDto;
+        }
         private void MostrarEnGrilla()
         {
             dgvDatos.Rows.Clear();
-            foreach (var detallelistDto in _listadetalle)
+            foreach (var ventaListDto in _listaventa)
             {
                 DataGridViewRow r = ConstruirFila();
-                SetearFila(r, detallelistDto);
+                SetearFila(r, ventaListDto);
                 AgregarFila(r);
             }
         }
@@ -66,15 +91,7 @@ namespace Bombones.Windows
             dgvDatos.Rows.Add(r);
         }
 
-        private void SetearFila(DataGridViewRow r, DetalleVentaListDto detallelistDto)
-        {
-            r.Cells[cmnVenta.Index].Value = detallelistDto.VentaId;
-            r.Cells[cmnClienteApellido.Index].Value = detallelistDto.Apellido;
-            r.Cells[CmnCliente.Index].Value = detallelistDto.Nombre;
-            r.Cells[CmnFecha.Index].Value = detallelistDto.Fecha;
-            r.Cells[CmnTotal.Index].Value = detallelistDto.Total;
-            r.Tag = detallelistDto;
-        }
+     
 
         private DataGridViewRow ConstruirFila()
         {
@@ -86,80 +103,117 @@ namespace Bombones.Windows
         private void tsbNuevo_Click(object sender, EventArgs e)
         {
             FrmDetalleVentaAE frm = new FrmDetalleVentaAE();
-            frm.Text = "Agregar Venta";
+            frm.Text = "Nueva Venta";
             DialogResult dr = frm.ShowDialog(this);
             if (dr == DialogResult.OK)
             {
                 try
                 {
-                    DetalleVentaEditDto detalleVentaEdit = frm.GetDetalleVenta();
-
-                    _servicioDetalle.Guardar(detalleVentaEdit);
-
-                    DetalleVentaListDto detalleVenta = new DetalleVentaListDto
+                    var ventaDto = frm.GetVenta();
+                    _serviciosVentas.Guardar(ventaDto);
+                    var ventaListDto = new VentaListDto
                     {
-                        DetalleVentaId = detalleVentaEdit.DetalleVentaId,
-                        VentaId = detalleVentaEdit.venta.VentaId,
-                        
-                        NombreBombon = detalleVentaEdit.bombon.NombreBombon,
-                        Precio = detalleVentaEdit.Precio,
-                        Cantidad = detalleVentaEdit.Cantidad,
+                        VentaId = ventaDto.VentaId,
+                        Nombre = ventaDto.cliente.Nombre,
+                        Fecha = ventaDto.Fecha,
+                        ItemsVenta = Helper.ConstruirListaItemsListDto(ventaDto.DetalleVentas)
 
-                        
                     };
-
-
-                    DataGridViewRow r = ConstruirFila();
-                    SetearFila(r, detalleVenta);
+                    var r = ConstruirFila();
+                    SetearFila(r, ventaListDto);
                     AgregarFila(r);
+                    MessageBox.Show("Venta agregada", "Mensaje",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message, "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+
+
+
+
+
+
+
+        }
+
+        
+
+        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void tsbBorrar_Click(object sender, EventArgs e)
+        {
+            if (dgvDatos.SelectedRows.Count > 0)
+            {
+                DataGridViewRow r = dgvDatos.SelectedRows[0];
+                VentaListDto venta = (VentaListDto)r.Tag;
+
+                DialogResult dr = MessageBox.Show($"¿Desea dar de baja a la venta número: {venta.VentaId}?",
+                    "Confirmar Baja", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
+                if (dr == DialogResult.Yes)
+                {
                     
-
-
-                }
-                catch (Exception exception)
-                {
-                    MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                }
-                try
-                {
-            
-                    VentaEditDto ventaEditDto = frm.GetVenta();
-
-                    ServiciosVentas.Guardar(ventaEditDto);
-     
-
-                    VentaListDto ventaListDto= new VentaListDto
-                    {
-                        VentaId= ventaEditDto.VentaId,
-                        Apellido=ventaEditDto.cliente.Apellido,
-                        Nombre=ventaEditDto.cliente.Nombre,
-                        Fecha=ventaEditDto.Fecha,
-
-
-                    };
-                    DataGridViewRow r = ConstruirFila();
-                    SetearFila2(r, ventaListDto);
-                    AgregarFila(r);
-
-
-                    MessageBox.Show("Registro agregado con exito", "Mensaje", MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+                   
+                        _serviciosVentas.Borrar(venta.VentaId);
+                        dgvDatos.Rows.Remove(r);
+                        MessageBox.Show("Registro Borrado", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                   
 
                 }
-
-                
-                catch (Exception exception)
+                else
                 {
-                    MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    MessageBox.Show("Acción cancelada");
                 }
             }
         }
 
-        private void SetearFila2(DataGridViewRow r, VentaListDto ventaListDto)
+        private void tsbEditar_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (dgvDatos.SelectedRows.Count > 0)
+            {
+                DataGridViewRow r = dgvDatos.SelectedRows[0];
+                VentaListDto ventaListDto = (VentaListDto)r.Tag;
+                FrmDetalleVentaAE frm = new FrmDetalleVentaAE();
+                VentaEditDto ventaEdit = _serviciosVentas.GetVentaPorId(ventaListDto.VentaId);
+                frm.Text = "Editar Venta";
+                frm.SetVenta(ventaEdit);
+                DialogResult dr = frm.ShowDialog(this);
+                if (dr == DialogResult.OK)
+                {
+                    try
+                    {
+                        ventaEdit = frm.GetVenta();
+
+                       
+                        
+                            _serviciosVentas.Guardar(ventaEdit);
+                            ventaListDto.VentaId = ventaEdit.VentaId;
+                            ventaListDto.Nombre = ventaEdit.cliente.Nombre;
+                            ventaListDto.Apellido = ventaEdit.cliente.Apellido;
+                            ventaListDto.Fecha = ventaEdit.Fecha;
+                            
+                           
+
+                            SetearFila(r, ventaListDto);
+                            MessageBox.Show("Registro Editado", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                       
+                    }
+                    catch (Exception exception)
+                    {
+                        SetearFila(r, ventaListDto);
+                        MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
     }
 }

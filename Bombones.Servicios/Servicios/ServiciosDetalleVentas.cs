@@ -1,6 +1,7 @@
 ﻿using Bombones.BL;
 using Bombones.BL.Dtos.DetalleVenta;
 using Bombones.Data;
+using Bombones.Data.Repositorios;
 using Bombones.Data.Repositorios.Facales;
 using Bombones.Servicios.Servicios.Facales;
 using System;
@@ -35,7 +36,7 @@ namespace Bombones.Servicios.Servicios
             try
             {
                 _conexion = new ConexionBD();
-                _conexion.AbrirConexion();
+                _repositorio = new RepositorioDetalleVentas(_conexion.AbrirConexion());
                 _repositorio.Borrar(detalleId);
                 _conexion.CerrarConexion();
             }
@@ -47,46 +48,71 @@ namespace Bombones.Servicios.Servicios
 
         public List<DetalleVentaListDto> GetLista()
         {
-            try
-            {
-                _conexion = new ConexionBD();
-                _conexion.AbrirConexion();
-                var lista = _repositorio.GetLista();
-                _conexion.CerrarConexion();
-                return lista;
-            }
-            catch (Exception e)
-            {
-
-                throw new Exception(e.Message);
-            }
+            throw new NotImplementedException();
         }
 
         public void Guardar(DetalleVentaEditDto detalleEditDto)
         {
-            try
-            {
-                _conexion = new ConexionBD();
-                _conexion.AbrirConexion();
-                DetalleVenta venta = new DetalleVenta
-                {
-                    DetalleVentaId = detalleEditDto.DetalleVentaId,
-                    VentaId = detalleEditDto.venta.VentaId,
-                   
-                    BombonId=detalleEditDto.bombon.BombonId,
-                    Precio=detalleEditDto.Precio,
-                    Cantidad=detalleEditDto.Cantidad
-
-                };
-                _repositorio.Guardar(venta);
-                _conexion.CerrarConexion();
-
-            }
-            catch (Exception e)
-            {
-
-                throw new Exception(e.Message);
-            }
+            throw new NotImplementedException();
         }
+
+        //public void Borrar(int detalleId)
+        //{
+        //    try
+        //    {
+        //        _conexion = new ConexionBD();
+        //        _conexion.AbrirConexion();
+        //        _repositorio.Borrar(detalleId);
+        //        _conexion.CerrarConexion();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception(e.Message);
+        //    }
+        //}
+
+        //public List<DetalleVentaListDto> GetLista(int ventaid)
+        //{
+        //    try
+        //    {
+        //        _conexion = new ConexionBD();
+        //        _conexion.AbrirConexion();
+        //        var lista = _repositorio.GetLista(int ventaid);
+        //        _conexion.CerrarConexion();
+        //        return lista;
+        //    }
+        //    catch (Exception e)
+        //    {
+
+        //        throw new Exception(e.Message);
+        //    }
+        //}
+
+        //public void Guardar(DetalleVentaEditDto detalleEditDto)
+        //{
+        //    try
+        //    {
+        //        _conexion = new ConexionBD();
+        //        _conexion.AbrirConexion();
+        //        DetalleVenta venta = new DetalleVenta
+        //        {
+        //            DetalleVentaId = detalleEditDto.DetalleVentaId,
+        //            VentaId = detalleEditDto.venta.VentaId,
+
+        //            BombonId=detalleEditDto.bombon.BombonId,
+        //            Precio=detalleEditDto.Precio,
+        //            Cantidad=detalleEditDto.Cantidad
+
+        //        };
+        //        _repositorio.Guardar(venta);
+        //        _conexion.CerrarConexion();
+
+        //    }
+        //    catch (Exception e)
+        //    {
+
+        //        throw new Exception(e.Message);
+        //    }
+
     }
 }

@@ -29,9 +29,10 @@ namespace Bombones.Windows
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDetalleVentaAE));
             this.txtFechaVenta = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
@@ -49,6 +50,8 @@ namespace Bombones.Windows
             this.UpDownCantidad = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtSubTotal = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.TxtPrecioUnidad = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -64,11 +67,13 @@ namespace Bombones.Windows
             this.OkButton = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnok = new System.Windows.Forms.Button();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownCantidad)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PedidoDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // txtFechaVenta
@@ -97,6 +102,7 @@ namespace Bombones.Windows
             this.cbBombon.Name = "cbBombon";
             this.cbBombon.Size = new System.Drawing.Size(239, 21);
             this.cbBombon.TabIndex = 183;
+            this.cbBombon.SelectedIndexChanged += new System.EventHandler(this.cbBombon_SelectedIndexChanged);
             // 
             // groupBox1
             // 
@@ -149,6 +155,7 @@ namespace Bombones.Windows
             this.cboCliente.Name = "cboCliente";
             this.cboCliente.Size = new System.Drawing.Size(263, 21);
             this.cboCliente.TabIndex = 145;
+            this.cboCliente.SelectedIndexChanged += new System.EventHandler(this.cboCliente_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -199,11 +206,11 @@ namespace Bombones.Windows
             // 
             // UpDownCantidad
             // 
-            this.UpDownCantidad.Enabled = false;
             this.UpDownCantidad.Location = new System.Drawing.Point(71, 45);
             this.UpDownCantidad.Name = "UpDownCantidad";
             this.UpDownCantidad.Size = new System.Drawing.Size(120, 20);
             this.UpDownCantidad.TabIndex = 187;
+            this.UpDownCantidad.ValueChanged += new System.EventHandler(this.UpDownCantidad_ValueChanged);
             // 
             // label8
             // 
@@ -216,6 +223,8 @@ namespace Bombones.Windows
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.txtSubTotal);
+            this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.TxtPrecioUnidad);
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.label15);
@@ -226,10 +235,27 @@ namespace Bombones.Windows
             this.groupBox3.Controls.Add(this.cbBombon);
             this.groupBox3.Location = new System.Drawing.Point(418, 78);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(300, 111);
+            this.groupBox3.Size = new System.Drawing.Size(300, 135);
             this.groupBox3.TabIndex = 189;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "groupBox3";
+            // 
+            // txtSubTotal
+            // 
+            this.txtSubTotal.Location = new System.Drawing.Point(111, 102);
+            this.txtSubTotal.Name = "txtSubTotal";
+            this.txtSubTotal.ReadOnly = true;
+            this.txtSubTotal.Size = new System.Drawing.Size(111, 20);
+            this.txtSubTotal.TabIndex = 194;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(52, 106);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(53, 13);
+            this.label4.TabIndex = 193;
+            this.label4.Text = "SubTotal:";
             // 
             // TxtPrecioUnidad
             // 
@@ -314,8 +340,8 @@ namespace Bombones.Windows
             // cmnPrecioUnidad
             // 
             this.cmnPrecioUnidad.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.cmnPrecioUnidad.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.cmnPrecioUnidad.DefaultCellStyle = dataGridViewCellStyle10;
             this.cmnPrecioUnidad.HeaderText = "Precio Por Unidad";
             this.cmnPrecioUnidad.Name = "cmnPrecioUnidad";
             this.cmnPrecioUnidad.ReadOnly = true;
@@ -323,8 +349,8 @@ namespace Bombones.Windows
             // cmnCantidad
             // 
             this.cmnCantidad.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.cmnCantidad.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.cmnCantidad.DefaultCellStyle = dataGridViewCellStyle11;
             this.cmnCantidad.HeaderText = "Cantidad";
             this.cmnCantidad.Name = "cmnCantidad";
             this.cmnCantidad.ReadOnly = true;
@@ -332,8 +358,8 @@ namespace Bombones.Windows
             // cmnTotal
             // 
             this.cmnTotal.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.cmnTotal.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.cmnTotal.DefaultCellStyle = dataGridViewCellStyle12;
             this.cmnTotal.HeaderText = "Total";
             this.cmnTotal.Name = "cmnTotal";
             this.cmnTotal.ReadOnly = true;
@@ -349,7 +375,7 @@ namespace Bombones.Windows
             this.CancelarButton.Text = "Cancelar";
             this.CancelarButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.CancelarButton.UseVisualStyleBackColor = true;
-
+            this.CancelarButton.Click += new System.EventHandler(this.CancelarButton_Click_1);
             // 
             // OkButton
             // 
@@ -361,6 +387,7 @@ namespace Bombones.Windows
             this.OkButton.Text = "OK";
             this.OkButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.OkButton.UseVisualStyleBackColor = true;
+            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
             // btnCancel
             // 
@@ -372,6 +399,7 @@ namespace Bombones.Windows
             this.btnCancel.Text = "Cancelar";
             this.btnCancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnok
             // 
@@ -383,6 +411,11 @@ namespace Bombones.Windows
             this.btnok.Text = "Aceptar";
             this.btnok.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnok.UseVisualStyleBackColor = true;
+            this.btnok.Click += new System.EventHandler(this.btnok_Click);
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
             // 
             // FrmDetalleVentaAE
             // 
@@ -413,6 +446,7 @@ namespace Bombones.Windows
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PedidoDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -451,5 +485,8 @@ namespace Bombones.Windows
         private System.Windows.Forms.DataGridViewTextBoxColumn cmnPrecioUnidad;
         private System.Windows.Forms.DataGridViewTextBoxColumn cmnCantidad;
         private System.Windows.Forms.DataGridViewTextBoxColumn cmnTotal;
+        private System.Windows.Forms.TextBox txtSubTotal;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

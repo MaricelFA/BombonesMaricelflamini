@@ -11,7 +11,8 @@ namespace Bombones.BL.Dtos.DetalleVenta
         public VentaListDto venta { get; set; }
         public BombonListDto bombon { get; set; }
         public ClienteListDto cliente { get; set; }
-        public decimal Precio { get; set; }
+        public decimal Costo { get; set; }
         public int Cantidad { get; set; }
+        public decimal Total => Costo * Cantidad;
     }
 }

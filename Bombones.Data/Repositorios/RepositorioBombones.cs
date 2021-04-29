@@ -16,6 +16,7 @@ namespace Bombones.Data.Repositorios
         private IRepositorioTipodeNuez _repositorioTipoDeNuez;
         private IRepositorioTipodeRelleno _repositorioTipodeRelleno;
         private IRepositorioTiposDeChocolate _repositorioTipoDeChocolate;
+        private SqlTransaction _tran;
 
         public RepositorioBombones(SqlConnection sqlConnection, IRepositorioTipodeNuez repositorioTipodeNuez, IRepositorioTipodeRelleno repositorioTipodeRelleno, IRepositorioTiposDeChocolate repositorioTiposDeChocolate)
         {
@@ -255,6 +256,23 @@ namespace Bombones.Data.Repositorios
                     throw new Exception("Error");
                 }
 
+            }
+        }
+
+        public void ActualizarStock(Bombon bombon, int v)
+        {
+            try
+            {
+                string cadenaComando = "UPDATE Bombones SET CantidadEnExistencia=CantidadEnExistencia+@cant WHERE BombonId=@id";
+                var comando = new SqlCommand(cadenaComando, _conexion, _tran);
+                comando.Parameters.AddWithValue("@cant", bombon.CantidadEnExistencia);
+                comando.Parameters.AddWithValue("@id", bombon.BombonId);
+                comando.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception("Error al actualizar el stock de bombones");
             }
         }
     }
