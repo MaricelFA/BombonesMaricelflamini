@@ -26,7 +26,7 @@ namespace Bombones.Windows
         private CarritoDto carrito;
         private BombonListDto bombonListDto;
         private ClienteListDto clienteListDto;
-        private ClienteEditDto clienteEdit;
+       // private ClienteEditDto clienteEdit;
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -52,25 +52,26 @@ namespace Bombones.Windows
             return detalleEdit;
         }
 
-        internal VentaEditDto GetVenta()
-        {
-           return ventaEditDto;
-        }
-
         private void CancelarButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
         }
 
+        internal VentaEditDto GetVenta()
+        {
+           return ventaDto;
+        }
+
+
+        public VentaEditDto ventaDto;
         private void OkButton_Click(object sender, EventArgs e)
         {
             if (ValidarDatos())
             {
-              
 
-                ventaEditDto = new VentaEditDto();
-                
-                ventaEditDto.cliente.NombreCompleto = clienteListDto.ClienteId;
+                ventaDto = new VentaEditDto();
+                ventaDto.cliente = clienteListDto;
+                ventaDto.Fecha = txtFechaVenta.Value;
 
                 foreach (var item in carrito.GetItems())
                 {
@@ -80,7 +81,7 @@ namespace Bombones.Windows
                         Cantidad = item.Cantidad,
                         Costo = item.Costo,
                     };
-                    ventaEditDto.DetalleVentas.Add(itemEditDto);
+                    ventaDto.DetalleVentas.Add(itemEditDto);
                 }
             }
 
@@ -172,7 +173,7 @@ namespace Bombones.Windows
                 detalleVenta.bombon = bombonListDto;
                 detalleVenta.Cantidad = (int)UpDownCantidad.Value;
                 detalleVenta.Costo = decimal.Parse(txtSubTotal.Text);
-
+                detalleVenta.cliente = clienteListDto;
                 carrito.AgregarAlCarrito(detalleVenta);
                 MostrarDatosEnGrilla();
                 MostrarTotalDeVenta();

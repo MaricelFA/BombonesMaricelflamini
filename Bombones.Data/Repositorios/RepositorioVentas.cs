@@ -144,11 +144,17 @@ namespace Bombones.Data.Repositorios
             {
                 try
                 {
-                    string cadenaComando = "INSERT INTO Ventas VALUES (@ventaId,@clienteId,@fecha)";
-                    SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
-                    comando.Parameters.AddWithValue("@ventaId", venta.VentaId);
-                    comando.Parameters.AddWithValue("@clienteId", venta.ClienteId);
+                    string cadenaComando = "INSERT INTO Ventas (ClienteId, Fecha) VALUES (@clienteId,@fecha)";
+                    SqlCommand comando = new SqlCommand(cadenaComando, _conexion,tran);
+                  
+                    comando.Parameters.AddWithValue("@clienteId", venta.cliente.ClienteId);
                     comando.Parameters.AddWithValue("@fecha", venta.Fecha);
+
+                    comando.ExecuteNonQuery();
+                    cadenaComando = "SELECT @@IDENTITY";
+                    comando = new SqlCommand(cadenaComando, _conexion, tran);
+                    int id = (int)(decimal)comando.ExecuteScalar();
+                    venta.VentaId = id;
                 }
                 catch (Exception e)
                 {
@@ -170,10 +176,6 @@ namespace Bombones.Data.Repositorios
                     comando.Parameters.AddWithValue("@fecha", venta.Fecha);
                     comando.Parameters.AddWithValue("@Id", venta.VentaId);
                     comando.ExecuteNonQuery();
-                    cadenaComando = "SELECT @@IDENTITY";
-                    comando = new SqlCommand(cadenaComando, _conexion, tran);
-                    int id = (int)(decimal)comando.ExecuteScalar();
-                    venta.VentaId = id;
 
                 }
                 catch (Exception e)

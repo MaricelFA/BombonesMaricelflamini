@@ -88,9 +88,8 @@ namespace Bombones.Data.Repositorios
 
             try
             {
-                string cadenaComando = "INSERT INTO DetallesVentas VALUES (@detalle,@venta,@bombon, @precio, @cantidad)";
+                string cadenaComando = "INSERT INTO DetallesVentas (VentaId, BombonId, Precio, Cantidad) VALUES (@venta,@bombon, @precio, @cantidad)";
                 SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
-                comando.Parameters.AddWithValue("@detalle", detalleVenta.DetalleVentaId);
                 comando.Parameters.AddWithValue("@venta", detalleVenta.venta.VentaId);
                 comando.Parameters.AddWithValue("@bombon", detalleVenta.bombon.NombreBombon);
                 comando.Parameters.AddWithValue("@precio", detalleVenta.Costo);

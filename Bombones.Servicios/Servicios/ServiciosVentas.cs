@@ -166,8 +166,7 @@ namespace Bombones.Servicios.Servicios
                 {
                     detalleVenta.venta = venta;
                     _repositoriodetalle.Guardar(detalleVenta);
-                    _repositoriobombones.ActualizarStock(detalleVenta.bombon,
-                        -detalleVenta.Cantidad);
+                    //_repositoriobombones.ActualizarStock(detalleVenta.bombon,                        detalleVenta.Cantidad);
 
                 }
                 #endregion

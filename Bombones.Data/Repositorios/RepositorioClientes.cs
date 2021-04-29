@@ -123,7 +123,7 @@ namespace Bombones.Data.Repositorios
             List<ClienteListDto> lista = new List<ClienteListDto>();
             try
             {
-                string cadenaComando = "SELECT ClienteId, Nombre, Apellido, NombreLocalidad, NombreProvincia  FROM Clientes C INNER JOIN Provincias P ON C.ProvinciaId = P.ProvinciaId INNER JOIN Localidades L ON C.LocalidadId = L.LocalidadId ";
+                string cadenaComando = "SELECT ClienteId, Nombre, Apellido, NombreLocalidad, NombreProvincia, Direccion  FROM Clientes C INNER JOIN Provincias P ON C.ProvinciaId = P.ProvinciaId INNER JOIN Localidades L ON C.LocalidadId = L.LocalidadId ";
                 SqlCommand comando = new SqlCommand(cadenaComando, _conexion);
                 SqlDataReader reader = comando.ExecuteReader();
                 while (reader.Read())
@@ -150,6 +150,7 @@ namespace Bombones.Data.Repositorios
             clienteListDto.Apellido = reader.GetString(2);
             clienteListDto.NombreLocalidad = reader.GetString(3);
             clienteListDto.NombreProvincia = reader.GetString(4);
+            clienteListDto.Direccion= reader.GetString(5);
             return clienteListDto;
         }
 

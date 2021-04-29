@@ -28,6 +28,7 @@ namespace Bombones.Windows
         }
         private IServiciosDetalleVentas _servicioDetalle;
         private IServiciosventas _serviciosVentas;
+        
         //private ServiciosDetalleVentas ServiciosDetalle;
         private ServiciosVentas ServiciosVentas;
         
@@ -100,6 +101,8 @@ namespace Bombones.Windows
             return r;
         }
 
+
+     
         private void tsbNuevo_Click(object sender, EventArgs e)
         {
             FrmDetalleVentaAE frm = new FrmDetalleVentaAE();
@@ -109,8 +112,9 @@ namespace Bombones.Windows
             {
                 try
                 {
-                    var ventaDto = frm.GetVenta();
-                    _serviciosVentas.Guardar(ventaDto);
+                 var    ventaDto = frm.GetVenta();
+
+                    ServiciosVentas.Guardar(ventaDto);
                     var ventaListDto = new VentaListDto
                     {
                         VentaId = ventaDto.VentaId,
@@ -119,9 +123,13 @@ namespace Bombones.Windows
                         ItemsVenta = Helper.ConstruirListaItemsListDto(ventaDto.DetalleVentas)
 
                     };
-                    var r = ConstruirFila();
-                    SetearFila(r, ventaListDto);
-                    AgregarFila(r);
+                    //var r = ConstruirFila();
+                    //SetearFila(r, ventaListDto);
+                    //AgregarFila(r);
+
+                    ServiciosVentas = new ServiciosVentas();
+                    _listaventa = ServiciosVentas.GetLista();
+                    MostrarEnGrilla();
                     MessageBox.Show("Venta agregada", "Mensaje",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
